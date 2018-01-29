@@ -1,9 +1,7 @@
 // @flow
 import { combineReducers } from './config'
-import ItemById from './containers/ItemById/reducer'
-import ItemsContainer from './containers/ItemsContainer/reducer'
+import App from './containers/App/reducer'
 
 export default combineReducers({
-	ItemById,
-	ItemsContainer,
+	App,
 })
