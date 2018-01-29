@@ -1,49 +1,41 @@
+// @flow
+
 import React, { Component } from 'react'
-import logo from './logo.svg'
+import { Stage, Layer, Rect, Text } from 'react-konva'
 
-import styled, { keyframes } from 'styled-components'
-
-const Wrap = styled.div`
-	text-align: center;
-`
-
-const logoSpin = keyframes`
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-`
-
-const Logo = styled.img`
-	animation: ${logoSpin} infinite 20s linear;
-	height: 80px;
-`
-
-const Header = styled.header`
-	background-color: #222;
-	height: 150px;
-	padding: 20px;
-	color: white;
-`
-
-const Title = styled.h1`
-	font-size: 1.5em;
-`
-
-const Intoro = styled.p`
-	font-size: large;
-`
+class ColoredRect extends React.Component {
+	state = {
+		color: 'green',
+	}
+	handleClick = () => {
+		this.setState({
+			color: 'red',
+		})
+	}
+	render() {
+		return (
+			<Rect
+				x={20}
+				y={20}
+				width={50}
+				height={50}
+				fill={this.state.color}
+				shadowBlur={5}
+				onClick={this.handleClick}
+			/>
+		)
+	}
+}
 
 class App extends Component {
 	render() {
 		return (
-			<Wrap>
-				<Header>
-					<Logo src={logo} className="App-logo" alt="logo" />
-					<Title className="App-title">Welcome to React</Title>
-				</Header>
-				<Intoro>
-					To get started, edit <code>src/App.js</code> and save to reload.
-				</Intoro>
-			</Wrap>
+			<Stage width={window.innerWidth} height={window.innerHeight}>
+				<Layer>
+					<Text text="Try click on rect" />
+					<ColoredRect />
+				</Layer>
+			</Stage>
 		)
 	}
 }
