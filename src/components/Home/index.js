@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react'
 import { Stage, Layer, Circle, Text } from 'react-konva'
+import Sound from 'react-sound'
 
 type HitResult = {
 	point: number,
@@ -44,11 +45,13 @@ const Target = (props: {
 type Props = {}
 type State = {
 	point: number,
+	play: boolean,
 }
 
 class App extends Component<Props, State> {
 	state = {
 		point: 0,
+		play: false,
 	}
 	render() {
 		const { state } = this
@@ -61,7 +64,19 @@ class App extends Component<Props, State> {
 					point={state.point}
 					handleHit={(e: HitResult) => {
 						console.log(e)
-						this.setState({ point: e.point })
+						this.setState({ point: e.point, play: true })
+					}}
+				/>
+				<Sound
+					url="bomb.wav"
+					autoLoad={true}
+					playStatus={state.play ? Sound.status.PLAYING : Sound.status.STOPPED}
+					onLoading={this.handleSongLoading}
+					onPlaying={() => {
+						console.log('play start')
+					}}
+					onFinishedPlaying={() => {
+						this.setState({ play: false })
 					}}
 				/>
 			</Stage>
