@@ -8,6 +8,16 @@ type HitResult = {
 	point: number,
 }
 
+function pointColor(point) {
+	if (point >= 9) {
+		return 'red'
+	}
+	if (point >= 5) {
+		return 'blue'
+	}
+	return 'black'
+}
+
 const Target = (props: {
 	r: number,
 	x: number,
@@ -21,6 +31,7 @@ const Target = (props: {
 				x={props.x - 5}
 				y={props.y - props.r * 2.5}
 				fontSize={props.r}
+				fill={pointColor(props.point)}
 				text={props.point.toString()}
 			/>
 			<Circle
