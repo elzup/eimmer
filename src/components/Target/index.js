@@ -9,13 +9,7 @@ export type HitResult = {
 }
 
 function pointColor(point) {
-	if (point >= 9) {
-		return 'red'
-	}
-	if (point >= 5) {
-		return 'blue'
-	}
-	return 'black'
+	return point >= 50 ? 'red' : 'black'
 }
 
 type Props = {
@@ -34,6 +28,19 @@ class Target extends Component<Props, State> {
 		play: false,
 		point: 0,
 	}
+	handleClick = ({ evt }: { evt: { x: number, y: number } }) => {
+		const { props } = this
+		const dx = props.x - evt.x
+		const dy = props.y - evt.y
+		const d = Math.sqrt(dx * dx + dy * dy)
+		const rate = d / props.r
+		const point = (10 - Math.floor(rate * 10)) * 10
+		if (point <= 0) {
+			return
+		}
+		this.setState({ point, play: true })
+		props.handleHit({ point })
+	}
 	render() {
 		const { state, props } = this
 		return (
@@ -49,17 +56,15 @@ class Target extends Component<Props, State> {
 					x={props.x}
 					y={props.y}
 					radius={props.r}
-					fill={'green'}
-					shadowBlur={5}
-					onClick={({ evt }: { evt: { x: number, y: number } }) => {
-						const dx = props.x - evt.x
-						const dy = props.y - evt.y
-						const d = Math.sqrt(dx * dx + dy * dy)
-						const rate = d / props.r
-						const point = 10 - Math.floor(rate * 10)
-						this.setState({ point, play: true })
-						props.handleHit({ point })
-					}}
+					fill={'#DE561C'}
+					onClick={this.handleClick}
+				/>
+				<Circle
+					x={props.x}
+					y={props.y}
+					radius={props.r / 2}
+					fill={'#FDA831'}
+					onClick={this.handleClick}
 				/>
 				<Sound
 					url="bomb.wav"
