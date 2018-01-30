@@ -2,6 +2,8 @@
 
 import React, { Component } from 'react'
 import { Layer, Circle, Text } from 'react-konva'
+import { Motion, spring } from 'react-motion'
+
 import Sound from 'react-sound'
 
 export type HitResult = {
@@ -20,6 +22,7 @@ type Props = {
 }
 type State = {
 	point: number,
+	counter: number,
 	play: boolean,
 }
 
@@ -27,6 +30,7 @@ class Target extends Component<Props, State> {
 	state = {
 		play: false,
 		point: 0,
+		counter: 0,
 	}
 	handleClick = ({ evt }: { evt: { x: number, y: number } }) => {
 		const { props } = this
@@ -38,7 +42,7 @@ class Target extends Component<Props, State> {
 		if (point <= 0) {
 			return
 		}
-		this.setState({ point, play: true })
+		this.setState({ point, play: true, counter: this.state.counter + 1 })
 		props.handleHit({ point })
 	}
 	render() {
@@ -46,15 +50,23 @@ class Target extends Component<Props, State> {
 		const { x, y, r } = props
 		return (
 			<Layer>
-				<Text
-					x={x - r}
-					width={r * 2}
-					align={'center'}
-					y={y - r * 2.5}
-					fontSize={r}
-					fill={pointColor(state.point)}
-					text={state.point.toString()}
-				/>
+				<Motion
+					key={state.counter}
+					defaultStyle={{ dy: 0 }}
+					style={{ dy: spring(-10) }}
+				>
+					{ips => (
+						<Text
+							x={x - r}
+							y={y - r * 2.5 + ips.dy}
+							width={r * 2}
+							align={'center'}
+							fontSize={r}
+							fill={pointColor(state.point)}
+							text={state.point.toString()}
+						/>
+					)}
+				</Motion>
 				<Circle
 					x={x}
 					y={y}
