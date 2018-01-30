@@ -43,26 +43,29 @@ class Target extends Component<Props, State> {
 	}
 	render() {
 		const { state, props } = this
+		const { x, y, r } = props
 		return (
 			<Layer>
 				<Text
-					x={props.x - 5}
-					y={props.y - props.r * 2.5}
-					fontSize={props.r}
+					x={x - r}
+					width={r * 2}
+					align={'center'}
+					y={y - r * 2.5}
+					fontSize={r}
 					fill={pointColor(state.point)}
 					text={state.point.toString()}
 				/>
 				<Circle
-					x={props.x}
-					y={props.y}
-					radius={props.r}
+					x={x}
+					y={y}
+					radius={r}
 					fill={'#DE561C'}
 					onClick={this.handleClick}
 				/>
 				<Circle
-					x={props.x}
-					y={props.y}
-					radius={props.r / 2}
+					x={x}
+					y={y}
+					radius={r / 2}
 					fill={'#FDA831'}
 					onClick={this.handleClick}
 				/>
