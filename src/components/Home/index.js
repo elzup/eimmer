@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react'
 import { Stage } from 'react-konva'
-import { TargetItem } from '../../types'
+import type { TargetItem } from '../../types'
 import Target, { type HitResult } from '../Target'
 
 type Props = {}
