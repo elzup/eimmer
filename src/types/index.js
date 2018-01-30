@@ -29,7 +29,8 @@ type ThunkDispatch<A> = (ta: ThunkAction) => A
 export type Dispatch = ReduxDispatch<Action> & ThunkDispatch<Action>
 export type Store = ReduxStore<State, Action, Dispatch>
 
-export type Item = {
-	id: number,
-	name: string,
+export type TargetItem = {
+	x: number,
+	y: number,
+	r: number,
 }
