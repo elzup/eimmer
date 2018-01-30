@@ -6,10 +6,33 @@ import type { TargetItem } from '../../types'
 import Target, { type HitResult } from '../Target'
 
 type Props = {}
-type State = {}
+type State = {
+	w: number,
+	h: number,
+}
 
 class App extends Component<Props, State> {
-	state = {}
+	state = {
+		w: window.innerWidth,
+		h: window.innerHeight,
+	}
+
+	updateDimensions = () => {
+		this.setState({ w: window.innerWidth, h: window.innerHeight })
+	}
+
+	componentDidMount() {
+		this.updateDimensions()
+		window.addEventListener('resize', this.updateDimensions)
+	}
+
+	/**
+	 * Remove event listener
+	 */
+	componentWillUnmount() {
+		window.removeEventListener('resize', this.updateDimensions)
+	}
+
 	render() {
 		const targets: TargetItem[] = [
 			{ x: 0.5, y: 0.5, r: 25 },
