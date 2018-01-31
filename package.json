@@ -8,9 +8,11 @@
 		"build": "node scripts/build.js",
 		"test": "node scripts/test.js --env=jsdom --coverage",
 		"deploy": "npm run build && gh-pages -d build",
-		"coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+		"coveralls":
+			"cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
 		"flow": "flow",
-		"gen:env": "cp templates/temp.env .env.development.local && cp templates/temp.env .env.production.local",
+		"gen:env":
+			"cp templates/temp.env .env.development.local && cp templates/temp.env .env.production.local",
 		"precommit": "lint-staged"
 	},
 	"dependencies": {
@@ -25,14 +27,10 @@
 		"react": "^16.2.0",
 		"react-dom": "^16.2.0",
 		"react-konva": "^1.6.6",
-		"react-motion": "^0.5.2",
-		"react-motion-loop": "^2.0.0",
 		"react-move": "^2.6.0",
 		"react-redux": "^5.0.6",
 		"react-router-dom": "^4.2.2",
 		"react-sound": "^1.1.0",
-		"react-transition-group": "^2.2.1",
-		"react-tween-state": "^0.1.5",
 		"redux": "^3.7.2",
 		"redux-persist": "^5.5.0",
 		"redux-thunk": "^2.2.0",
@@ -95,18 +93,11 @@
 		"s2s-plugins-redux": "^0.4.3"
 	},
 	"lint-staged": {
-		"src/**/*.js": [
-			"prettier --config ./.prettierrc --write",
-			"git add"
-		]
+		"src/**/*.js": ["prettier --config ./.prettierrc --write", "git add"]
 	},
 	"jest": {
-		"collectCoverageFrom": [
-			"src/**/*.{js,jsx,mjs}"
-		],
-		"setupFiles": [
-			"<rootDir>/config/polyfills.js"
-		],
+		"collectCoverageFrom": ["src/**/*.{js,jsx,mjs}"],
+		"setupFiles": ["<rootDir>/config/polyfills.js"],
 		"testMatch": [
 			"<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
 			"<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
@@ -116,11 +107,10 @@
 		"transform": {
 			"^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
 			"^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-			"^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+			"^(?!.*\\.(js|jsx|mjs|css|json)$)":
+				"<rootDir>/config/jest/fileTransform.js"
 		},
-		"transformIgnorePatterns": [
-			"[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-		],
+		"transformIgnorePatterns": ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"],
 		"moduleNameMapper": {
 			"^react-native$": "react-native-web"
 		},

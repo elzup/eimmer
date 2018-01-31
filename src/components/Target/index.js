@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react'
 import { Layer, Circle, Text } from 'react-konva'
-import { Motion, spring } from 'react-motion'
+import Animate from 'react-move/Animate'
+import { easeExpOut as ease } from 'd3-ease'
 
 import Sound from 'react-sound'
 
@@ -17,18 +18,22 @@ function pointColor(point) {
 type Props = {
 	x: number,
 	y: number,
-	r: number,
+	r?: number,
 	handleHit: HitResult => void,
 }
 type State = {
 	point: number,
+	hit: boolean,
 	counter: number,
 	play: boolean,
 }
 
 class Target extends Component<Props, State> {
+	static defaultProps = { r: 25 }
+
 	state = {
 		play: false,
+		hit: false,
 		point: 0,
 		counter: 0,
 	}
@@ -45,6 +50,7 @@ class Target extends Component<Props, State> {
 		this.setState({
 			point,
 			play: true,
+			hit: true,
 			counter: this.state.counter + 1,
 		})
 		props.handleHit({ point })
@@ -54,23 +60,35 @@ class Target extends Component<Props, State> {
 		const { x, y, r } = props
 		return (
 			<Layer>
-				<Motion
-					key={state.counter}
-					defaultStyle={{ dy: 0 }}
-					style={{ dy: spring(-10) }}
+				<Animate
+					start={() => ({
+						dy: -r * 1.5,
+					})}
+					update={() => {
+						if (state.hit) {
+							this.setState({ hit: false })
+							return {
+								dy: [0, -r * 1.5],
+								timing: { duration: 500, ease },
+							}
+						}
+						return {}
+					}}
 				>
-					{ips => (
-						<Text
-							x={x - r}
-							y={y - r * 2.5 + ips.dy}
-							width={r * 2}
-							align={'center'}
-							fontSize={r}
-							fill={pointColor(state.point)}
-							text={state.point.toString()}
-						/>
-					)}
-				</Motion>
+					{s => {
+						return (
+							<Text
+								x={x - r}
+								y={y - r + s.dy}
+								width={r * 2}
+								align={'center'}
+								fontSize={r}
+								fill={pointColor(state.point)}
+								text={state.point.toString()}
+							/>
+						)
+					}}
+				</Animate>
 				<Circle
 					x={x}
 					y={y}
@@ -89,6 +107,7 @@ class Target extends Component<Props, State> {
 					url="bomb.wav"
 					autoLoad={true}
 					playStatus={state.play ? Sound.status.PLAYING : Sound.status.STOPPED}
+					onPlaying={() => {}}
 					onFinishedPlaying={() => {
 						this.setState({ play: false })
 					}}
