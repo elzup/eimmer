@@ -55,16 +55,18 @@ class App extends Component<Props, State> {
 				width={window.innerWidth}
 				height={window.innerHeight}
 				onClick={(e: { evt: MouseEvent }) => {
-					console.log(e)
+					const skey = e.evt.timeStamp.toString()
 					this.setState({
 						outs: {
 							...this.state.outs,
-							[e.evt.timeStamp]: { x: e.evt.pageX, y: e.evt.pageY },
+							[skey]: { x: e.evt.pageX, y: e.evt.pageY },
 						},
 					})
 					setTimeout(() => {
-						console.log('end')
-					}, 1000)
+						this.setState({
+							outs: _.omit(this.state.outs, [skey]),
+						})
+					}, 10000)
 				}}
 			>
 				<Layer>
@@ -77,7 +79,7 @@ class App extends Component<Props, State> {
 				</Layer>
 				{_.map(this.state.outs, (out, k) => (
 					<Layer key={k}>
-						<Circle x={out.x} y={out.y} radius={10} fill={'black'} />
+						<Circle x={out.x} y={out.y} radius={3} fill={'black'} />
 					</Layer>
 				))}
 				{targets.map((target, i) => (
