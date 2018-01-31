@@ -1,21 +1,24 @@
 // @flow
 
 import React, { Component } from 'react'
+import Animate from 'react-move/Animate'
+import { easeSinInOut } from 'd3-ease'
+
 import { Stage } from 'react-konva'
 import Target, { type HitResult } from '../Target'
-import { spring } from 'react-motion'
-import { ReactMotionLoop } from 'react-motion-loop'
 
 type Props = {}
 type State = {
 	w: number,
 	h: number,
+	dx: number,
 }
 
 class MoveStage extends Component<Props, State> {
 	state = {
 		w: window.innerWidth,
 		h: window.innerHeight,
+		dx: 0.2,
 	}
 
 	updateDimensions = () => {
@@ -34,21 +37,29 @@ class MoveStage extends Component<Props, State> {
 	render() {
 		return (
 			<Stage width={window.innerWidth} height={window.innerHeight}>
-				<ReactMotionLoop
-					styleFrom={{ dx: spring(0.2, { stiffness: 5, damping: 5 }) }}
-					styleTo={{ dx: spring(0.8, { stiffness: 5, damping: 5 }) }}
+				<Animate
+					start={() => ({
+						x: 0.2,
+					})}
+					update={() => ({
+						x: [this.state.dx],
+						timing: { duration: 200, ease: easeSinInOut },
+					})}
 				>
-					{pos => (
-						<Target
-							r={25}
-							x={window.innerWidth * pos.dx}
-							y={window.innerHeight * 0.2}
-							handleHit={(e: HitResult) => {
-								console.log(e)
-							}}
-						/>
-					)}
-				</ReactMotionLoop>
+					{state => {
+						return (
+							<Target
+								r={25}
+								x={window.innerWidth * state.x}
+								y={window.innerHeight * 0.2}
+								handleHit={(e: HitResult) => {
+									this.setState({ dx: 0.2 + Math.random() * 0.6 })
+									console.log(e)
+								}}
+							/>
+						)
+					}}
+				</Animate>
 			</Stage>
 		)
 	}
