@@ -2,10 +2,12 @@
 
 import React, { Component } from 'react'
 import { Stage } from 'react-konva'
-import type { TargetItem } from '../../types'
+import type { TargetItem, Config } from '../../types'
 import Target, { type HitResult } from '../Target'
 
-type Props = {}
+export type Props = {
+	config: Config,
+}
 type State = {
 	w: number,
 	h: number,

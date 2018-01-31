@@ -34,3 +34,7 @@ export type TargetItem = {
 	y: number,
 	r: number,
 }
+
+export type Config = {
+	soundOn: boolean,
+}
