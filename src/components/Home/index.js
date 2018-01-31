@@ -51,7 +51,6 @@ class App extends Component<Props, State> {
 						r={target.r}
 						x={window.innerWidth * target.x}
 						y={window.innerHeight * target.y}
-						soundOn={this.props.config.soundOn}
 						handleHit={(e: HitResult) => {
 							console.log(e)
 						}}

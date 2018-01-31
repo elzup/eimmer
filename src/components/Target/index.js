@@ -18,7 +18,6 @@ type Props = {
 	x: number,
 	y: number,
 	r: number,
-	soundOn: boolean,
 	handleHit: HitResult => void,
 }
 type State = {
@@ -45,7 +44,7 @@ class Target extends Component<Props, State> {
 		}
 		this.setState({
 			point,
-			play: props.soundOn,
+			play: true,
 			counter: this.state.counter + 1,
 		})
 		props.handleHit({ point })
