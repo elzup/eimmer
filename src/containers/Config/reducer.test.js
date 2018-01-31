@@ -7,5 +7,9 @@ test('provide the initial state', () => {
 })
 
 test('handle UPDATE_CONFIG', () => {
-	expect(reducer(initialState, actions.updateConfig())).toEqual({})
+	expect(
+		reducer(initialState, actions.updateConfig({ soundOn: false })),
+	).toEqual({
+		soundOn: false,
+	})
 })
