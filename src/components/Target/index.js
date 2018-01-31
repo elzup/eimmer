@@ -32,10 +32,10 @@ class Target extends Component<Props, State> {
 		point: 0,
 		counter: 0,
 	}
-	handleClick = ({ evt }: { evt: { x: number, y: number } }) => {
+	handleClick = (e: { evt: { x: number, y: number } }) => {
 		const { props } = this
-		const dx = props.x - evt.x
-		const dy = props.y - evt.y
+		const dx = props.x - e.evt.x
+		const dy = props.y - e.evt.y
 		const d = Math.sqrt(dx * dx + dy * dy)
 		const rate = d / props.r
 		const point = (10 - Math.floor(rate * 10)) * 10
