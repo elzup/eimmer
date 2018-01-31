@@ -7,5 +7,5 @@ export type Props = {
 	updateConfig: (config: Config) => void,
 }
 
-const ConfigFooter = (props: Props) => <div>{JSON.stringify(props)}</div>
+const ConfigFooter = (props: Props) => <div />
 export default ConfigFooter

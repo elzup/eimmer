@@ -32,17 +32,21 @@ class Target extends Component<Props, State> {
 		point: 0,
 		counter: 0,
 	}
-	handleClick = ({ evt }: { evt: { x: number, y: number } }) => {
+	handleClick = (e: { evt: { x: number, y: number } }) => {
 		const { props } = this
-		const dx = props.x - evt.x
-		const dy = props.y - evt.y
+		const dx = props.x - e.evt.x
+		const dy = props.y - e.evt.y
 		const d = Math.sqrt(dx * dx + dy * dy)
 		const rate = d / props.r
 		const point = (10 - Math.floor(rate * 10)) * 10
 		if (point <= 0) {
 			return
 		}
-		this.setState({ point, play: true, counter: this.state.counter + 1 })
+		this.setState({
+			point,
+			play: true,
+			counter: this.state.counter + 1,
+		})
 		props.handleHit({ point })
 	}
 	render() {
@@ -85,9 +89,6 @@ class Target extends Component<Props, State> {
 					url="bomb.wav"
 					autoLoad={true}
 					playStatus={state.play ? Sound.status.PLAYING : Sound.status.STOPPED}
-					onPlaying={() => {
-						console.log('play start')
-					}}
 					onFinishedPlaying={() => {
 						this.setState({ play: false })
 					}}

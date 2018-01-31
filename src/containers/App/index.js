@@ -1,4 +1,7 @@
 // @flow
+/* global soundManager:false */
+import 'react-sound'
+
 import React from 'react'
 import { connect, type Connector } from 'react-redux'
 import { HashRouter as Router, Route, Link } from 'react-router-dom'
@@ -10,7 +13,8 @@ import MoveStage from '../../components/MoveStage'
 import { getConfig } from '../Config/selectors'
 import { updateConfig } from '../Config/actions'
 import type { State, Config } from '../../types'
-// import * as selectors from './selectors'
+
+soundManager.setup({ debugMode: false })
 
 type Props = {
 	config: Config,
@@ -52,6 +56,7 @@ const App = (props: Props) => (
 		</div>
 	</Router>
 )
+
 type OProps = {}
 
 const ms = (state: State) => ({
