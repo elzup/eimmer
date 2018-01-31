@@ -4,18 +4,18 @@ import { HashRouter as Router, Route, Link } from 'react-router-dom'
 import FlatButton from 'material-ui/FlatButton'
 
 import Home from '../../components/Home'
+import MoveStage from '../../components/MoveStage'
 
 const App = () => (
 	<Router>
 		<div>
 			<div>
 				<Route exact path="/" component={Home} />
-				<Route path="/move" component={() => <span>move</span>} />
-				<Route path="/grid" component={() => <span>grid</span>} />
+				<Route path="/move" component={MoveStage} />
 			</div>
 			<div className="float">
 				<FlatButton label="home" containerElement={<Link to="/" />} />
-				<FlatButton label="about" containerElement={<Link to="/about" />} />
+				<FlatButton label="move" containerElement={<Link to="/move" />} />
 				<style jsx>{`
 					.float {
 						position: absolute;
