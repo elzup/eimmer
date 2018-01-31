@@ -18,6 +18,7 @@ type Props = {
 	x: number,
 	y: number,
 	r: number,
+	soundOn: boolean,
 	handleHit: HitResult => void,
 }
 type State = {
@@ -42,7 +43,11 @@ class Target extends Component<Props, State> {
 		if (point <= 0) {
 			return
 		}
-		this.setState({ point, play: true, counter: this.state.counter + 1 })
+		this.setState({
+			point,
+			play: props.soundOn,
+			counter: this.state.counter + 1,
+		})
 		props.handleHit({ point })
 	}
 	render() {
@@ -85,9 +90,6 @@ class Target extends Component<Props, State> {
 					url="bomb.wav"
 					autoLoad={true}
 					playStatus={state.play ? Sound.status.PLAYING : Sound.status.STOPPED}
-					onPlaying={() => {
-						console.log('play start')
-					}}
 					onFinishedPlaying={() => {
 						this.setState({ play: false })
 					}}
