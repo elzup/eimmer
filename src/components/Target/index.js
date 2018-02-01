@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Layer, Circle, Text } from 'react-konva'
+import { Group, Circle, Text } from 'react-konva'
 import Animate from 'react-move/Animate'
 import { easeExpOut as ease } from 'd3-ease'
 
@@ -59,7 +59,7 @@ class Target extends Component<Props, State> {
 		const { state, props } = this
 		const { x, y, r } = props
 		return (
-			<Layer>
+			<Group>
 				<Animate
 					start={() => ({
 						dy: -r * 1.5,
@@ -112,7 +112,7 @@ class Target extends Component<Props, State> {
 						this.setState({ play: false })
 					}}
 				/>
-			</Layer>
+			</Group>
 		)
 	}
 }

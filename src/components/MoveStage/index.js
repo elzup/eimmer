@@ -7,6 +7,7 @@ import { easeSinInOut } from 'd3-ease'
 
 import { Stage } from 'react-konva'
 import Target, { type HitResult } from '../Target'
+import LineTarget from '../LineTarget'
 
 type Props = {}
 type State = {
@@ -20,6 +21,7 @@ class MoveStage extends Component<Props, State> {
 	state = {
 		w: window.innerWidth,
 		h: window.innerHeight,
+		dxi: 0,
 		dx: 0.2,
 		dx2: 0.2,
 	}
@@ -39,70 +41,23 @@ class MoveStage extends Component<Props, State> {
 
 	render() {
 		const { state: { h, w } } = this
+		const stepPos = ({ i, max, step, offset }) => {
+			const dv = (max - offset) / step
+			return offset + dv * (step - Math.abs(i % (step * 2) - step))
+		}
 		return (
 			<Stage width={w} height={h}>
 				<Layer>
-					<Line
-						stroke={'#000'}
-						points={[w * 0.2, h * 0.2, w * 0.8, h * 0.2]}
-						fill={'black'}
+					<LineTarget
+						sx={w * 0.2}
+						sy={h * 0.2}
+						ex={w * 0.8}
+						ey={h * 0.2}
+						ix={({ i, n }) =>
+							w * stepPos({ i, max: 0.8, step: 6, offset: 0.2 })
+						}
 					/>
 				</Layer>
-				<Animate
-					start={() => ({
-						x: 0.2,
-					})}
-					update={() => ({
-						x: [this.state.dx],
-						timing: { duration: 200, ease: easeSinInOut },
-					})}
-				>
-					{state => {
-						return (
-							<Target
-								r={25}
-								x={w * state.x}
-								y={h * 0.2}
-								handleHit={(e: HitResult) => {
-									this.setState({ dx: 0.2 + Math.random() * 0.6 })
-									console.log(e)
-								}}
-							/>
-						)
-					}}
-				</Animate>
-				<Layer>
-					<Line
-						stroke={'#000'}
-						points={[w * 0.2, h * 0.4, w * 0.8, h * 0.4]}
-						fill={'black'}
-					/>
-				</Layer>
-				<Animate
-					start={() => ({
-						x: 0.2,
-					})}
-					update={() => ({
-						x: [this.state.dx2],
-						timing: { duration: 200, ease: easeSinInOut },
-					})}
-				>
-					{state => {
-						return (
-							<Target
-								r={25}
-								x={w * state.x}
-								y={h * 0.4}
-								handleHit={(e: HitResult) => {
-									const dx2 =
-										this.state.dx2 + 0.1 > 0.8 ? 0.2 : this.state.dx2 + 0.1
-									this.setState({ dx2 })
-									console.log(e)
-								}}
-							/>
-						)
-					}}
-				</Animate>
 			</Stage>
 		)
 	}

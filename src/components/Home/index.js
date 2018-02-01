@@ -74,17 +74,15 @@ class App extends React.PureComponent<Props, State> {
 						width={window.innerWidth}
 						height={window.innerHeight}
 					/>
+					{_.map(this.state.outs, (out, k) => (
+						<Circle key={k} x={out.x} y={out.y} radius={3} fill={'black'} />
+					))}
+					<Target x={w * 0.5} y={h * 0.5} handleHit={this.handleHit} />
+					<Target x={w * 0.2} y={h * 0.2} handleHit={this.handleHit} />
+					<Target x={w * 0.2} y={h * 0.8} handleHit={this.handleHit} />
+					<Target x={w * 0.8} y={h * 0.2} handleHit={this.handleHit} />
+					<Target x={w * 0.8} y={h * 0.8} handleHit={this.handleHit} />
 				</Layer>
-				{_.map(this.state.outs, (out, k) => (
-					<Layer key={k}>
-						<Circle x={out.x} y={out.y} radius={3} fill={'black'} />
-					</Layer>
-				))}
-				<Target x={w * 0.5} y={h * 0.5} handleHit={this.handleHit} />
-				<Target x={w * 0.2} y={h * 0.2} handleHit={this.handleHit} />
-				<Target x={w * 0.2} y={h * 0.8} handleHit={this.handleHit} />
-				<Target x={w * 0.8} y={h * 0.2} handleHit={this.handleHit} />
-				<Target x={w * 0.8} y={h * 0.8} handleHit={this.handleHit} />
 			</Stage>
 		)
 	}
