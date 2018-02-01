@@ -62,6 +62,8 @@ class LineTarget extends Component<Props, State> {
 								r={25}
 								x={astate.x}
 								y={astate.y}
+								colOu={'#00a'}
+								colIn={'#46ebff'}
 								handleHit={(e: HitResult) => {
 									const pi = state.pi + 1
 									this.setState({

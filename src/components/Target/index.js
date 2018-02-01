@@ -19,6 +19,8 @@ type Props = {
 	x: number,
 	y: number,
 	r?: number,
+	colIn?: string,
+	colOu?: string,
 	handleHit: HitResult => void,
 }
 type State = {
@@ -29,7 +31,7 @@ type State = {
 }
 
 class Target extends Component<Props, State> {
-	static defaultProps = { r: 25 }
+	static defaultProps = { r: 25, colIn: '#FDA831', colOu: '#DE561C' }
 
 	state = {
 		play: false,
@@ -93,14 +95,14 @@ class Target extends Component<Props, State> {
 					x={x}
 					y={y}
 					radius={r}
-					fill={'#DE561C'}
+					fill={props.colIn}
 					onClick={this.handleClick}
 				/>
 				<Circle
 					x={x}
 					y={y}
 					radius={r / 2}
-					fill={'#FDA831'}
+					fill={props.colOu}
 					onClick={this.handleClick}
 				/>
 				<Sound
