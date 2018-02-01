@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Layer } from 'react-konva'
+import { Layer, Circle } from 'react-konva'
 import _ from 'lodash'
 
 import { Stage } from 'react-konva'
@@ -22,6 +22,8 @@ type State = {
 
 const w = window.innerWidth
 const h = window.innerHeight
+
+const HARD_R = 80
 
 class HardStage extends Component<Props, State> {
 	state = {
@@ -62,7 +64,7 @@ class HardStage extends Component<Props, State> {
 						}
 						const dx = pageX - t.x
 						const dy = pageY - t.y
-						if (Math.sqrt(dx * dx + dy * dy) >= 50) {
+						if (Math.sqrt(dx * dx + dy * dy) >= HARD_R) {
 							ts[i].enable = true
 							changed = true
 						}
@@ -74,6 +76,15 @@ class HardStage extends Component<Props, State> {
 			>
 				<Stage width={w} height={h}>
 					<Layer>
+						{_.map(_.filter(targets, { enable: false }), (t, i) => (
+							<Circle
+								key={i}
+								stroke={'green'}
+								radius={HARD_R}
+								x={t.x}
+								y={t.y}
+							/>
+						))}
 						{_.map(targets, (t, i) => (
 							<Target
 								key={i}
