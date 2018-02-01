@@ -11,6 +11,7 @@ import Home from '../../components/Home'
 import ConfigFooter from '../../components/ConfigFooter'
 import MoveStage from '../../components/MoveStage'
 import HardStage from '../../components/HardStage'
+import GridStage from '../../components/GridStage'
 import { getConfig } from '../Config/selectors'
 import { updateConfig } from '../Config/actions'
 import type { State, Config } from '../../types'
@@ -33,11 +34,13 @@ const App = (props: Props) => (
 				/>
 				<Route path="/move" component={MoveStage} />
 				<Route path="/hard" component={HardStage} />
+				<Route path="/grid" component={GridStage} />
 			</div>
 			<div className="float">
 				<FlatButton label="home" containerElement={<Link to="/" />} />
 				<FlatButton label="move" containerElement={<Link to="/move" />} />
 				<FlatButton label="hard" containerElement={<Link to="/hard" />} />
+				<FlatButton label="grid" containerElement={<Link to="/grid" />} />
 				<style jsx>{`
 					.float {
 						position: absolute;
