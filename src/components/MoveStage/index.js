@@ -1,13 +1,10 @@
 // @flow
 
 import React, { Component } from 'react'
-import Animate from 'react-move/Animate'
-import { Layer, Line } from 'react-konva'
-import { easeSinInOut } from 'd3-ease'
+import { Layer } from 'react-konva'
 
 import { Stage } from 'react-konva'
-import Target, { type HitResult } from '../Target'
-import LineTarget from '../LineTarget'
+import LineTarget, { type UpdatePos } from '../LineTarget'
 
 type Props = {}
 type State = {
@@ -15,6 +12,12 @@ type State = {
 	h: number,
 	dx: number,
 	dx2: number,
+}
+
+function stepPos(p) {
+	const { i, s, e, step } = p
+	const dv = (e - s) / step
+	return s + dv * (step - Math.abs(i % (step * 2) - step))
 }
 
 class MoveStage extends Component<Props, State> {
@@ -41,21 +44,38 @@ class MoveStage extends Component<Props, State> {
 
 	render() {
 		const { state: { h, w } } = this
-		const stepPos = ({ i, max, step, offset }) => {
-			const dv = (max - offset) / step
-			return offset + dv * (step - Math.abs(i % (step * 2) - step))
-		}
 		return (
 			<Stage width={w} height={h}>
 				<Layer>
 					<LineTarget
 						sx={w * 0.2}
-						sy={h * 0.2}
+						sy={h * 0.15}
 						ex={w * 0.8}
-						ey={h * 0.2}
-						ix={({ i, n }) =>
-							w * stepPos({ i, max: 0.8, step: 6, offset: 0.2 })
-						}
+						ey={h * 0.15}
+						ix={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+					<LineTarget
+						sx={w * 0.15}
+						sy={h * 0.2}
+						ex={w * 0.15}
+						ey={h * 0.8}
+						iy={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+					<LineTarget
+						sx={w * 0.25}
+						sy={h * 0.85}
+						ex={w * 0.85}
+						ey={h * 0.25}
+						ix={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+						iy={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+					<LineTarget
+						sx={w * 0.25}
+						sy={h * 0.25}
+						ex={w * 0.85}
+						ey={h * 0.85}
+						ix={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+						iy={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
 					/>
 				</Layer>
 			</Stage>

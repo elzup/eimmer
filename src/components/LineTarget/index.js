@@ -7,13 +7,15 @@ import { easeSinInOut as ease } from 'd3-ease'
 
 import Target, { type HitResult } from '../Target'
 
+export type UpdatePos = { i: number, s: number, e: number }
+
 type Props = {
 	sx: number,
 	sy: number,
 	ex: number,
 	ey: number,
-	ix?: ({ i: number, n: number }) => number,
-	iy?: ({ i: number, n: number }) => number,
+	ix?: UpdatePos => number,
+	iy?: UpdatePos => number,
 	handleHit?: HitResult => void,
 }
 type State = {
@@ -24,8 +26,8 @@ type State = {
 
 class LineTarget extends Component<Props, State> {
 	static defaultProps = {
-		ix: p => p.n,
-		iy: p => p.n,
+		ix: (p: UpdatePos) => p.s,
+		iy: (p: UpdatePos) => p.s,
 		handleHit: e => {},
 	}
 
@@ -47,7 +49,6 @@ class LineTarget extends Component<Props, State> {
 						y: sy,
 					})}
 					update={() => {
-						console.log(state)
 						return {
 							x: [state.x],
 							y: [state.y],
@@ -65,8 +66,8 @@ class LineTarget extends Component<Props, State> {
 									const pi = state.pi + 1
 									this.setState({
 										pi,
-										x: props.ix({ i: state.pi, n: sx }),
-										y: props.iy({ i: state.pi, n: sy }),
+										x: props.ix({ i: state.pi, s: sx, e: ex }),
+										y: props.iy({ i: state.pi, s: sy, e: ey }),
 									})
 									props.handleHit(e)
 								}}
