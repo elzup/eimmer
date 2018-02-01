@@ -84,8 +84,6 @@ class GridStage extends React.PureComponent<Props, State> {
 								x={w * (i * 0.1 + 0.15)}
 								y={h * (j * 0.1 + 0.15)}
 								handleHit={this.handleHit}
-								colIn={'#fdf'}
-								colOu={'#a0f'}
 							/>
 						)),
 					)}
