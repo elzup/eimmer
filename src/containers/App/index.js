@@ -10,6 +10,7 @@ import FlatButton from 'material-ui/FlatButton'
 import Home from '../../components/Home'
 import ConfigFooter from '../../components/ConfigFooter'
 import MoveStage from '../../components/MoveStage'
+import HardStage from '../../components/HardStage'
 import { getConfig } from '../Config/selectors'
 import { updateConfig } from '../Config/actions'
 import type { State, Config } from '../../types'
@@ -31,10 +32,12 @@ const App = (props: Props) => (
 					component={() => <Home config={props.config} />}
 				/>
 				<Route path="/move" component={MoveStage} />
+				<Route path="/hard" component={HardStage} />
 			</div>
 			<div className="float">
 				<FlatButton label="home" containerElement={<Link to="/" />} />
 				<FlatButton label="move" containerElement={<Link to="/move" />} />
+				<FlatButton label="hard" containerElement={<Link to="/hard" />} />
 				<style jsx>{`
 					.float {
 						position: absolute;

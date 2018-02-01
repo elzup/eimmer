@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react'
-import { Layer, Circle, Text } from 'react-konva'
+import { Group, Circle, Text } from 'react-konva'
 import Animate from 'react-move/Animate'
 import { easeExpOut as ease } from 'd3-ease'
 
@@ -19,7 +19,10 @@ type Props = {
 	x: number,
 	y: number,
 	r?: number,
-	handleHit: HitResult => void,
+	enable?: boolean,
+	colIn?: string,
+	colOu?: string,
+	handleHit?: HitResult => void,
 }
 type State = {
 	point: number,
@@ -29,7 +32,13 @@ type State = {
 }
 
 class Target extends Component<Props, State> {
-	static defaultProps = { r: 25 }
+	static defaultProps = {
+		r: 25,
+		enable: true,
+		colIn: '#FDA831',
+		colOu: '#DE561C',
+		handleHit: () => {},
+	}
 
 	state = {
 		play: false,
@@ -39,6 +48,9 @@ class Target extends Component<Props, State> {
 	}
 	handleClick = (e: { evt: { x: number, y: number } }) => {
 		const { props } = this
+		if (!props.enable) {
+			return
+		}
 		const dx = props.x - e.evt.x
 		const dy = props.y - e.evt.y
 		const d = Math.sqrt(dx * dx + dy * dy)
@@ -59,7 +71,7 @@ class Target extends Component<Props, State> {
 		const { state, props } = this
 		const { x, y, r } = props
 		return (
-			<Layer>
+			<Group>
 				<Animate
 					start={() => ({
 						dy: -r * 1.5,
@@ -93,14 +105,14 @@ class Target extends Component<Props, State> {
 					x={x}
 					y={y}
 					radius={r}
-					fill={'#DE561C'}
+					fill={props.enable ? props.colIn : '#aaa'}
 					onClick={this.handleClick}
 				/>
 				<Circle
 					x={x}
 					y={y}
 					radius={r / 2}
-					fill={'#FDA831'}
+					fill={props.enable ? props.colOu : '#333'}
 					onClick={this.handleClick}
 				/>
 				<Sound
@@ -112,7 +124,7 @@ class Target extends Component<Props, State> {
 						this.setState({ play: false })
 					}}
 				/>
-			</Layer>
+			</Group>
 		)
 	}
 }

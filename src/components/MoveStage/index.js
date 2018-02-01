@@ -1,24 +1,27 @@
 // @flow
 
 import React, { Component } from 'react'
-import Animate from 'react-move/Animate'
-import { easeSinInOut } from 'd3-ease'
+import { Layer } from 'react-konva'
 
 import { Stage } from 'react-konva'
-import Target, { type HitResult } from '../Target'
+import LineTarget, { type UpdatePos } from '../LineTarget'
 
 type Props = {}
 type State = {
 	w: number,
 	h: number,
-	dx: number,
+}
+
+function stepPos(p) {
+	const { i, s, e, step } = p
+	const dv = (e - s) / step
+	return s + dv * (step - Math.abs(i % (step * 2) - step))
 }
 
 class MoveStage extends Component<Props, State> {
 	state = {
 		w: window.innerWidth,
 		h: window.innerHeight,
-		dx: 0.2,
 	}
 
 	updateDimensions = () => {
@@ -35,31 +38,41 @@ class MoveStage extends Component<Props, State> {
 	}
 
 	render() {
+		const { state: { h, w } } = this
 		return (
-			<Stage width={window.innerWidth} height={window.innerHeight}>
-				<Animate
-					start={() => ({
-						x: 0.2,
-					})}
-					update={() => ({
-						x: [this.state.dx],
-						timing: { duration: 200, ease: easeSinInOut },
-					})}
-				>
-					{state => {
-						return (
-							<Target
-								r={25}
-								x={window.innerWidth * state.x}
-								y={window.innerHeight * 0.2}
-								handleHit={(e: HitResult) => {
-									this.setState({ dx: 0.2 + Math.random() * 0.6 })
-									console.log(e)
-								}}
-							/>
-						)
-					}}
-				</Animate>
+			<Stage width={w} height={h}>
+				<Layer>
+					<LineTarget
+						sx={w * 0.2}
+						sy={h * 0.15}
+						ex={w * 0.8}
+						ey={h * 0.15}
+						ix={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+					<LineTarget
+						sx={w * 0.15}
+						sy={h * 0.2}
+						ex={w * 0.15}
+						ey={h * 0.8}
+						iy={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+					<LineTarget
+						sx={w * 0.25}
+						sy={h * 0.85}
+						ex={w * 0.85}
+						ey={h * 0.25}
+						ix={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+						iy={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+					<LineTarget
+						sx={w * 0.25}
+						sy={h * 0.25}
+						ex={w * 0.85}
+						ey={h * 0.85}
+						ix={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+						iy={(p: UpdatePos) => stepPos({ ...p, step: 6 })}
+					/>
+				</Layer>
 			</Stage>
 		)
 	}
