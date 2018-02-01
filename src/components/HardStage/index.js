@@ -7,10 +7,17 @@ import _ from 'lodash'
 import { Stage } from 'react-konva'
 import Target from '../Target'
 
+type TargetObj = {
+	x: number,
+	y: number,
+	enable: boolean,
+}
+
 type Props = {}
 type State = {
 	w: number,
 	h: number,
+	targets: { [i: number]: TargetObj },
 }
 
 const w = window.innerWidth
@@ -45,28 +52,49 @@ class HardStage extends Component<Props, State> {
 	render() {
 		const { state: { h, w, targets } } = this
 		return (
-			<Stage width={w} height={h} onMouseMove={e => {}}>
-				<Layer>
-					{_.map(targets, (t, i) => (
-						<Target
-							key={i}
-							x={t.x}
-							y={t.y}
-							handleHit={e => {
-								this.setState({
-									targets: {
-										...targets,
-										[i]: { ...targets[i], enable: false },
-									},
-								})
-							}}
-							enable={t.enable}
-							colIn={'#afa'}
-							colOu={'#0a0'}
-						/>
-					))}
-				</Layer>
-			</Stage>
+			<div
+				onMouseMove={({ pageX, pageY }) => {
+					const ts = this.state.targets
+					let changed = false
+					_.each(ts, (t, i) => {
+						if (t.enable) {
+							return
+						}
+						const dx = pageX - t.x
+						const dy = pageY - t.y
+						if (Math.sqrt(dx * dx + dy * dy) >= 50) {
+							ts[i].enable = true
+							changed = true
+						}
+					})
+					if (changed) {
+						this.setState({ targets: ts })
+					}
+				}}
+			>
+				<Stage width={w} height={h}>
+					<Layer>
+						{_.map(targets, (t, i) => (
+							<Target
+								key={i}
+								x={t.x}
+								y={t.y}
+								handleHit={e => {
+									this.setState({
+										targets: {
+											...targets,
+											[i]: { ...targets[i], enable: false },
+										},
+									})
+								}}
+								enable={t.enable}
+								colIn={'#afa'}
+								colOu={'#0a0'}
+							/>
+						))}
+					</Layer>
+				</Stage>
+			</div>
 		)
 	}
 }
