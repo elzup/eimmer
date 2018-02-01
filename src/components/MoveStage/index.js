@@ -10,8 +10,6 @@ type Props = {}
 type State = {
 	w: number,
 	h: number,
-	dx: number,
-	dx2: number,
 }
 
 function stepPos(p) {
@@ -24,9 +22,6 @@ class MoveStage extends Component<Props, State> {
 	state = {
 		w: window.innerWidth,
 		h: window.innerHeight,
-		dxi: 0,
-		dx: 0.2,
-		dx2: 0.2,
 	}
 
 	updateDimensions = () => {

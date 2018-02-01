@@ -19,9 +19,10 @@ type Props = {
 	x: number,
 	y: number,
 	r?: number,
+	enable?: boolean,
 	colIn?: string,
 	colOu?: string,
-	handleHit: HitResult => void,
+	handleHit?: HitResult => void,
 }
 type State = {
 	point: number,
@@ -31,7 +32,13 @@ type State = {
 }
 
 class Target extends Component<Props, State> {
-	static defaultProps = { r: 25, colIn: '#FDA831', colOu: '#DE561C' }
+	static defaultProps = {
+		r: 25,
+		enable: true,
+		colIn: '#FDA831',
+		colOu: '#DE561C',
+		handleHit: () => {},
+	}
 
 	state = {
 		play: false,
@@ -41,6 +48,9 @@ class Target extends Component<Props, State> {
 	}
 	handleClick = (e: { evt: { x: number, y: number } }) => {
 		const { props } = this
+		if (!props.enable) {
+			return
+		}
 		const dx = props.x - e.evt.x
 		const dy = props.y - e.evt.y
 		const d = Math.sqrt(dx * dx + dy * dy)
@@ -95,14 +105,14 @@ class Target extends Component<Props, State> {
 					x={x}
 					y={y}
 					radius={r}
-					fill={props.colIn}
+					fill={props.enable ? props.colIn : '#aaa'}
 					onClick={this.handleClick}
 				/>
 				<Circle
 					x={x}
 					y={y}
 					radius={r / 2}
-					fill={props.colOu}
+					fill={props.enable ? props.colOu : '#333'}
 					onClick={this.handleClick}
 				/>
 				<Sound
