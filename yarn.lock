@@ -5549,9 +5549,9 @@ klaw@^1.0.0:
   optionalDependencies:
     graceful-fs "^4.1.9"
 
-konva@1.7.6:
-  version "1.7.6"
-  resolved "https://registry.yarnpkg.com/konva/-/konva-1.7.6.tgz#7aceef1058b04127077c8f44653556b35b1133e6"
+konva@4.0.15:
+  version "4.0.15"
+  resolved "https://registry.yarnpkg.com/konva/-/konva-4.0.15.tgz#330fb52f09294ab18d7dc35f5583887d0b23974e"
 
 latest-version@^3.0.0:
   version "3.1.0"
