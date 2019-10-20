@@ -76,7 +76,7 @@
 		"file-loader": "1.1.11",
 		"flow-bin": "0.109.0",
 		"fs-extra": "5.0.0",
-		"gh-pages": "1.2.0",
+		"gh-pages": "2.1.1",
 		"html-webpack-plugin": "2.30.1",
 		"husky": "0.14.3",
 		"jest": "22.4.4",
